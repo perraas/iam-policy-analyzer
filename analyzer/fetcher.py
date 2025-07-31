@@ -1,152 +1,116 @@
 # fetcher.py
 import boto3
-import logging
-from botocore.exceptions import ClientError, NoCredentialsError
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+import json
 
 iam_client = boto3.client('iam')
 
-def list_users():
-    try:
-        response = iam_client.list_users()
-        return [user['UserName'] for user in response.get('Users', [])]
-    except ClientError as e:
-        logger.error(f"Error listing users: {e}")
-        return []
-    except NoCredentialsError:
-        logger.error("AWS credentials not found")
-        return []
+def get_doc(policy_arn):
+  # Gets the policy document for a given policy ARN.
+    policy = iam_client.get_policy(PolicyArn=policy_arn)
+    policy_version = iam_client.get_policy_version(
+        PolicyArn=policy_arn,
+        VersionId=policy['Policy']['DefaultVersionId']
+    )
+    return policy_version['PolicyVersion']['Document']
 
-def list_roles():
-    try:
-        response = iam_client.list_roles()
-        return [role['RoleName'] for role in response.get('Roles', [])]
-    except ClientError as e:
-        logger.error(f"Error listing roles: {e}")
-        return []
-    except NoCredentialsError:
-        logger.error("AWS credentials not found")
-        return []
 
-def list_groups():
-    try:
-        response = iam_client.list_groups()
-        return [group['GroupName'] for group in response.get('Groups', [])]
-    except ClientError as e:
-        logger.error(f"Error listing groups: {e}")
-        return []
-    except NoCredentialsError:
-        logger.error("AWS credentials not found")
-        return []
+def fetch_iam_data():
 
-def get_attached_policies(entity_type, entity_name):
-    if entity_type not in ['user', 'role', 'group']:
-        raise ValueError("Invalid entity type")
-    try:
-        if entity_type == 'user':
-            response = iam_client.list_attached_user_policies(UserName=entity_name)
-        elif entity_type == 'role':
-            response = iam_client.list_attached_role_policies(RoleName=entity_name)
-        elif entity_type == 'group':
-            response = iam_client.list_attached_group_policies(GroupName=entity_name)
-        return [policy['PolicyArn'] for policy in response.get('AttachedPolicies', [])]
-    except ClientError as e:
-        logger.error(f"Error getting attached policies for {entity_type} {entity_name}: {e}")
-        return []
+   # Retrieves IAM info and policies
+    iam_data = {
+        "users": {},
+        "roles": {},
+        "groups": {}
+    }
 
-def get_inline_policies(entity_type, entity_name):
-    if entity_type not in ['user', 'role', 'group']:
-        raise ValueError("Invalid entity type")
-    try:
-        if entity_type == 'user':
-            response = iam_client.list_user_policies(UserName=entity_name)
-        elif entity_type == 'role':
-            response = iam_client.list_role_policies(RoleName=entity_name)
-        elif entity_type == 'group':
-            response = iam_client.list_group_policies(GroupName=entity_name)
-        return response.get('PolicyNames', [])
-    except ClientError as e:
-        logger.error(f"Error getting inline policies for {entity_type} {entity_name}: {e}")
-        return []
+    # Fetch Users and their policies
+    paginator = iam_client.get_paginator('list_users')
+    for page in paginator.paginate():
+        for user in page['Users']:
+            user_name = user['UserName']
+            iam_data["users"][user_name] = {'policies': []}
 
-def fetch_policy_document(policy_arn):
-    try:
-        response = iam_client.get_policy(PolicyArn=policy_arn)
-        version_id = response['Policy']['DefaultVersionId']
-        policy_version = iam_client.get_policy_version(
-            PolicyArn=policy_arn,
-            VersionId=version_id
-        )
-        return policy_version['PolicyVersion']['Document']
-    except ClientError as e:
-        logger.error(f"Error fetching policy document for {policy_arn}: {e}")
-        return None
+            # Get attached policies
+            attached_policies = iam_client.list_attached_user_policies(UserName=user_name)
+            for policy in attached_policies['AttachedPolicies']:
+                doc = get_doc(policy['PolicyArn'])
+                if doc:
+                    iam_data["users"][user_name]['policies'].append({
+                        'policy_name': policy['PolicyName'],
+                        'policy_arn': policy['PolicyArn'],
+                        'policy_type': 'managed',
+                        'doc': doc
+                    })
 
-def fetch_inline_policy_document(entity_type, entity_name, policy_name):
-    try:
-        if entity_type == 'user':
-            response = iam_client.get_user_policy(UserName=entity_name, PolicyName=policy_name)
-        elif entity_type == 'role':
-            response = iam_client.get_role_policy(RoleName=entity_name, PolicyName=policy_name)
-        elif entity_type == 'group':
-            response = iam_client.get_group_policy(GroupName=entity_name, PolicyName=policy_name)
-        return response['PolicyDocument']
-    except ClientError as e:
-        logger.error(f"Error fetching inline policy {policy_name} for {entity_type} {entity_name}: {e}")
-        return None
+            # Get inline policies
+            inline_policies = iam_client.list_user_policies(UserName=user_name)
+            for policy_name in inline_policies['PolicyNames']:
+                doc = iam_client.get_user_policy(UserName=user_name, PolicyName=policy_name)['PolicyDocument']
+                iam_data["users"][user_name]['policies'].append({
+                    'policy_name': policy_name,
+                    'policy_type': 'inline',
+                    'doc': doc
+                })
 
-def fetch_all_policies():
-    all_policies = {}
-    
-    try:
-        # Fetch policies for users
-        for user in list_users():
-            inline_policy_names = get_inline_policies('user', user)
-            managed_policy_arns = get_attached_policies('user', user)
-            
-            inline_policies = [fetch_inline_policy_document('user', user, policy_name) 
-                              for policy_name in inline_policy_names]
-            managed_policies = [fetch_policy_document(arn) for arn in managed_policy_arns]
-            
-            all_policies[user] = {
-                'inline': [policy for policy in inline_policies if policy is not None],
-                'managed': [policy for policy in managed_policies if policy is not None]
-            }
-        
-        # Fetch policies for roles
-        for role in list_roles():
-            inline_policy_names = get_inline_policies('role', role)
-            managed_policy_arns = get_attached_policies('role', role)
-            
-            inline_policies = [fetch_inline_policy_document('role', role, policy_name) 
-                              for policy_name in inline_policy_names]
-            managed_policies = [fetch_policy_document(arn) for arn in managed_policy_arns]
-            
-            all_policies[role] = {
-                'inline': [policy for policy in inline_policies if policy is not None],
-                'managed': [policy for policy in managed_policies if policy is not None]
-            }
-        
-        # Fetch policies for groups
-        for group in list_groups():
-            inline_policy_names = get_inline_policies('group', group)
-            managed_policy_arns = get_attached_policies('group', group)
-            
-            inline_policies = [fetch_inline_policy_document('group', group, policy_name) 
-                              for policy_name in inline_policy_names]
-            managed_policies = [fetch_policy_document(arn) for arn in managed_policy_arns]
-            
-            all_policies[group] = {
-                'inline': [policy for policy in inline_policies if policy is not None],
-                'managed': [policy for policy in managed_policies if policy is not None]
-            }
-        
-        logger.info(f"Successfully fetched policies for {len(all_policies)} entities")
-        return all_policies
-    
-    except Exception as e:
-        logger.error(f"Unexpected error in fetch_all_policies: {e}")
-        return {}
+
+    # Fetch Roles and their policies
+    paginator = iam_client.get_paginator('list_roles')
+    for page in paginator.paginate():
+        for role in page['Roles']:
+            role_name = role['RoleName']
+            iam_data["roles"][role_name] = {'policies': []}
+
+            # Get attached policies
+            attached_policies = iam_client.list_attached_role_policies(RoleName=role_name)
+            for policy in attached_policies['AttachedPolicies']:
+                doc = get_doc(policy['PolicyArn'])
+                if doc:
+                    iam_data["roles"][role_name]['policies'].append({
+                        'policy_name': policy['PolicyName'],
+                        'policy_arn': policy['PolicyArn'],
+                        'policy_type': 'managed',
+                        'doc': doc
+                    })
+
+            # Get inline policies
+            inline_policies = iam_client.list_role_policies(RoleName=role_name)
+            for policy_name in inline_policies['PolicyNames']:
+                doc = iam_client.get_role_policy(RoleName=role_name, PolicyName=policy_name)['PolicyDocument']
+                iam_data["roles"][role_name]['policies'].append({
+                    'policy_name': policy_name,
+                    'policy_type': 'inline',
+                    'doc': doc
+                })
+
+    # Fetch Groups and their policies
+    paginator = iam_client.get_paginator('list_groups')
+    for page in paginator.paginate():
+        for group in page['Groups']:
+            group_name = group['GroupName']
+            iam_data["groups"][group_name] = {'policies': []}
+
+            # Get attached policies
+            attached_policies = iam_client.list_attached_group_policies(GroupName=group_name)
+            for policy in attached_policies['AttachedPolicies']:
+                doc = get_doc(policy['PolicyArn'])
+                if doc:
+                    iam_data["groups"][group_name]['policies'].append({
+                        'policy_name': policy['PolicyName'],
+                        'policy_arn': policy['PolicyArn'],
+                        'policy_type': 'managed',
+                        'doc': doc
+                    })
+
+            # Get inline policies
+            inline_policies = iam_client.list_group_policies(GroupName=group_name)
+            for policy_name in inline_policies['PolicyNames']:
+                doc = iam_client.get_group_policy(GroupName=group_name, PolicyName=policy_name)['PolicyDocument']
+                iam_data["groups"][group_name]['policies'].append({
+                    'policy_name': policy_name,
+                    'policy_type': 'inline',
+                    'doc': doc
+                })
+
+
+    return iam_data
+

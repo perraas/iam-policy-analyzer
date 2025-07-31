@@ -1,0 +1,29 @@
+EntityType,EntityName,PolicyName,PolicyType,RiskScore,Issues,HighRiskActions,WildcardAction,WildcardResource
+users,attacker,AmazonEC2FullAccess,managed,High,"Wildcard resource (*) detected, Wildcard resource (*) detected, Wildcard resource (*) detected, Wildcard resource (*) detected, Wildcard resource (*) detected",ec2:*,True,True
+users,attacker,AmazonRDSFullAccess,managed,High,"Wildcard resource (*) detected, Wildcard resource (*) detected, Wildcard resource (*) detected",,True,True
+users,attacker,IAMFullAccess,managed,Medium,Wildcard resource (*) detected,iam:*,True,True
+users,attacker,AmazonEventBridgeFullAccess,managed,Medium,Wildcard resource (*) detected,,True,True
+users,attacker,AWSLambda_FullAccess,managed,High,"Wildcard resource (*) detected, Wildcard resource (*) detected",,True,True
+users,attacker,Stride_KMS,managed,Medium,Wildcard resource (*) detected,,False,True
+users,attacker,BYOKM,managed,High,Wildcard resource (*) detected,,True,True
+users,attacker,lambda-perms-for-stride,managed,Medium,Wildcard resource (*) detected,,True,True
+users,attacker,o,inline,Medium,Wildcard resource (*) detected,,True,True
+users,badguy,strideRDSRole,managed,Medium,,,False,True
+users,badguy,Stride_KMS,managed,Medium,Wildcard resource (*) detected,,False,True
+users,badguy,baneandox-stride-lambda,managed,Medium,Wildcard resource (*) detected,,False,True
+users,badguy,lambda-perms-for-stride,managed,Medium,Wildcard resource (*) detected,,True,True
+users,badguy,events,inline,Medium,Wildcard resource (*) detected,,False,True
+users,badguy,passingrole,inline,Medium,,,False,False
+roles,AWSServiceRoleForOrganizations,AWSOrganizationsServiceTrustPolicy,managed,Medium,Wildcard resource (*) detected,,False,True
+roles,AWSServiceRoleForRDS,AmazonRDSServiceRolePolicy,managed,Medium,"Wildcard resource (*) detected, Wildcard resource (*) detected, Wildcard resource (*) detected, Wildcard resource (*) detected",,False,True
+roles,AWSServiceRoleForSSO,AWSSSOServiceRolePolicy,managed,Medium,"Wildcard resource (*) detected, Wildcard resource (*) detected, Wildcard resource (*) detected, Wildcard resource (*) detected, Wildcard resource (*) detected",,False,True
+roles,AWSServiceRoleForSupport,AWSSupportServiceRolePolicy,managed,High,"Wildcard resource (*) detected, Wildcard resource (*) detected, Wildcard resource (*) detected",,False,True
+roles,AWSServiceRoleForTrustedAdvisor,AWSTrustedAdvisorServiceRolePolicy,managed,High,Wildcard resource (*) detected,,False,True
+roles,ec2-stride-role,Stride_KMS,managed,Medium,Wildcard resource (*) detected,,False,True
+roles,ec2-stride-role,EventBridge_Create,inline,Medium,Wildcard resource (*) detected,,False,True
+roles,ec2-stride-role,IAM_PassRole,inline,Medium,Wildcard resource (*) detected,,False,True
+roles,rds-monitoring-role,AmazonRDSEnhancedMonitoringRole,managed,Medium,,,False,True
+roles,S3access,AmazonS3FullAccess,managed,Medium,Wildcard resource (*) detected,s3:*,True,True
+roles,StrideSnapshotAutomationRole,strideRDSRole,managed,Medium,,,False,True
+roles,StrideSnapshotAutomationRole,Stride_KMS,managed,Medium,Wildcard resource (*) detected,,False,True
+groups,testing-group,AdministratorAccess,managed,High,"Full admin privileges (*) detected, Wildcard resource (*) detected",*,True,True

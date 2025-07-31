@@ -1,0 +1,671 @@
+{
+    "users": {
+        "attacker": {
+            "policies": [
+                {
+                    "policy_name": "AmazonEC2FullAccess",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [
+                            "ec2:*"
+                        ],
+                        "high_risk_services": [
+                            "iam",
+                            "ec2"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "High"
+                    }
+                },
+                {
+                    "policy_name": "AmazonRDSFullAccess",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "iam",
+                            "ec2"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "High"
+                    }
+                },
+                {
+                    "policy_name": "IAMFullAccess",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/IAMFullAccess",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [
+                            "iam:*"
+                        ],
+                        "high_risk_services": [
+                            "iam"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "AmazonEventBridgeFullAccess",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "iam"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "AWSLambda_FullAccess",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/AWSLambda_FullAccess",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "ec2",
+                            "kms",
+                            "cloudformation",
+                            "iam",
+                            "lambda"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "High"
+                    }
+                },
+                {
+                    "policy_name": "Stride_KMS",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::752749715189:policy/Stride_KMS",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "kms"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "BYOKM",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::752749715189:policy/BYOKM",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "kms",
+                            "iam",
+                            "lambda"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "High"
+                    }
+                },
+                {
+                    "policy_name": "lambda-perms-for-stride",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::752749715189:policy/lambda-perms-for-stride",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "kms"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "o",
+                    "policy_type": "inline",
+                    "policy_arn": "N/A",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "lambda"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                }
+            ],
+            "overall_risk": "High",
+            "risk_reasons": [
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected"
+            ]
+        },
+        "badguy": {
+            "policies": [
+                {
+                    "policy_name": "strideRDSRole",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::752749715189:policy/strideRDSRole",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [],
+                        "admin_privileges": false,
+                        "issues": [],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "Stride_KMS",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::752749715189:policy/Stride_KMS",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "kms"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "baneandox-stride-lambda",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::752749715189:policy/baneandox-stride-lambda",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "lambda"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "lambda-perms-for-stride",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::752749715189:policy/lambda-perms-for-stride",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "kms"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "events",
+                    "policy_type": "inline",
+                    "policy_arn": "N/A",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "passingrole",
+                    "policy_type": "inline",
+                    "policy_arn": "N/A",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": false,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "iam"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [],
+                        "risk_score": "Medium"
+                    }
+                }
+            ],
+            "overall_risk": "Medium",
+            "risk_reasons": [
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected"
+            ]
+        },
+        "testing-user": {
+            "policies": [],
+            "overall_risk": "Low",
+            "risk_reasons": []
+        }
+    },
+    "roles": {
+        "AWSServiceRoleForOrganizations": {
+            "policies": [
+                {
+                    "policy_name": "AWSOrganizationsServiceTrustPolicy",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/aws-service-role/AWSOrganizationsServiceTrustPolicy",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "iam"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                }
+            ],
+            "overall_risk": "Medium",
+            "risk_reasons": [
+                "Wildcard resource (*) detected"
+            ]
+        },
+        "AWSServiceRoleForRDS": {
+            "policies": [
+                {
+                    "policy_name": "AmazonRDSServiceRolePolicy",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/aws-service-role/AmazonRDSServiceRolePolicy",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "ec2"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                }
+            ],
+            "overall_risk": "Medium",
+            "risk_reasons": [
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected"
+            ]
+        },
+        "AWSServiceRoleForSSO": {
+            "policies": [
+                {
+                    "policy_name": "AWSSSOServiceRolePolicy",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/aws-service-role/AWSSSOServiceRolePolicy",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "iam"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                }
+            ],
+            "overall_risk": "Medium",
+            "risk_reasons": [
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected"
+            ]
+        },
+        "AWSServiceRoleForSupport": {
+            "policies": [
+                {
+                    "policy_name": "AWSSupportServiceRolePolicy",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/aws-service-role/AWSSupportServiceRolePolicy",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "ec2",
+                            "kms",
+                            "cloudformation",
+                            "iam",
+                            "s3",
+                            "sts",
+                            "lambda"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected",
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "High"
+                    }
+                }
+            ],
+            "overall_risk": "High",
+            "risk_reasons": [
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected"
+            ]
+        },
+        "AWSServiceRoleForTrustedAdvisor": {
+            "policies": [
+                {
+                    "policy_name": "AWSTrustedAdvisorServiceRolePolicy",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/aws-service-role/AWSTrustedAdvisorServiceRolePolicy",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "cloudformation",
+                            "iam",
+                            "ec2",
+                            "s3"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "High"
+                    }
+                }
+            ],
+            "overall_risk": "High",
+            "risk_reasons": [
+                "Wildcard resource (*) detected"
+            ]
+        },
+        "ec2-stride-role": {
+            "policies": [
+                {
+                    "policy_name": "Stride_KMS",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::752749715189:policy/Stride_KMS",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "kms"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "EventBridge_Create",
+                    "policy_type": "inline",
+                    "policy_arn": "N/A",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "IAM_PassRole",
+                    "policy_type": "inline",
+                    "policy_arn": "N/A",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "iam"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                }
+            ],
+            "overall_risk": "Medium",
+            "risk_reasons": [
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected",
+                "Wildcard resource (*) detected"
+            ]
+        },
+        "rds-monitoring-role": {
+            "policies": [
+                {
+                    "policy_name": "AmazonRDSEnhancedMonitoringRole",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [],
+                        "admin_privileges": false,
+                        "issues": [],
+                        "risk_score": "Medium"
+                    }
+                }
+            ],
+            "overall_risk": "Medium",
+            "risk_reasons": []
+        },
+        "S3access": {
+            "policies": [
+                {
+                    "policy_name": "AmazonS3FullAccess",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [
+                            "s3:*"
+                        ],
+                        "high_risk_services": [
+                            "s3"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                }
+            ],
+            "overall_risk": "Medium",
+            "risk_reasons": [
+                "Wildcard resource (*) detected"
+            ]
+        },
+        "StrideSnapshotAutomationRole": {
+            "policies": [
+                {
+                    "policy_name": "strideRDSRole",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::752749715189:policy/strideRDSRole",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [],
+                        "admin_privileges": false,
+                        "issues": [],
+                        "risk_score": "Medium"
+                    }
+                },
+                {
+                    "policy_name": "Stride_KMS",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::752749715189:policy/Stride_KMS",
+                    "analysis": {
+                        "wildcard_action": false,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [],
+                        "high_risk_services": [
+                            "kms"
+                        ],
+                        "admin_privileges": false,
+                        "issues": [
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "Medium"
+                    }
+                }
+            ],
+            "overall_risk": "Medium",
+            "risk_reasons": [
+                "Wildcard resource (*) detected"
+            ]
+        }
+    },
+    "groups": {
+        "testing-group": {
+            "policies": [
+                {
+                    "policy_name": "AdministratorAccess",
+                    "policy_type": "managed",
+                    "policy_arn": "arn:aws:iam::aws:policy/AdministratorAccess",
+                    "analysis": {
+                        "wildcard_action": true,
+                        "wildcard_resource": true,
+                        "high_risk_actions": [
+                            "*"
+                        ],
+                        "high_risk_services": [
+                            "all"
+                        ],
+                        "admin_privileges": true,
+                        "issues": [
+                            "Full admin privileges (*) detected",
+                            "Wildcard resource (*) detected"
+                        ],
+                        "risk_score": "High"
+                    }
+                }
+            ],
+            "overall_risk": "High",
+            "risk_reasons": [
+                "Full admin privileges (*) detected",
+                "Wildcard resource (*) detected"
+            ]
+        }
+    },
+    "summary": {
+        "total_entities": 13,
+        "high_risk_entities": 4,
+        "medium_risk_entities": 8,
+        "low_risk_entities": 1
+    }
+}

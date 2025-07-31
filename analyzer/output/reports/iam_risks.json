@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "source_kind": "AWSBase"
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "aws-user-attacker",
+        "kinds": ["User"],
+        "properties": {
+          "name": "attacker",
+          "objectid": "aws-user-attacker",
+          "displayname": "attacker",
+          "overall_risk": "High"
+        }
+      },
+      {
+        "id": "aws-user-badguy",
+        "kinds": ["User"],
+        "properties": {
+          "name": "badguy",
+          "objectid": "aws-user-badguy",
+          "displayname": "badguy",
+          "overall_risk": "Medium"
+        }
+      },
+      {
+        "id": "aws-user-testing-user",
+        "kinds": ["User"],
+        "properties": {
+          "name": "testing-user",
+          "objectid": "aws-user-testing-user",
+          "displayname": "testing-user",
+          "overall_risk": "Low"
+        }
+      },
+      {
+        "id": "aws-group-testing-group",
+        "kinds": ["Group"],
+        "properties": {
+          "name": "testing-group",
+          "objectid": "aws-group-testing-group",
+          "displayname": "testing-group",
+          "overall_risk": "High"
+        }
+      },
+      {
+        "id": "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+        "kinds": ["Policy"],
+        "properties": {
+          "name": "AmazonEC2FullAccess",
+          "objectid": "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+          "displayname": "AmazonEC2FullAccess",
+          "policy_type": "managed",
+          "risk_score": "High"
+        }
+      },
+      {
+        "id": "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
+        "kinds": ["Policy"],
+        "properties": {
+          "name": "AmazonRDSFullAccess",
+          "objectid": "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
+          "displayname": "AmazonRDSFullAccess",
+          "policy_type": "managed",
+          "risk_score": "High"
+        }
+      },
+      {
+        "id": "arn:aws:iam::aws:policy/IAMFullAccess",
+        "kinds": ["Policy"],
+        "properties": {
+          "name": "IAMFullAccess",
+          "objectid": "arn:aws:iam::aws:policy/IAMFullAccess",
+          "displayname": "IAMFullAccess",
+          "policy_type": "managed",
+          "risk_score": "Medium"
+        }
+      },
+      {
+        "id": "arn:aws:iam::aws:policy/AdministratorAccess",
+        "kinds": ["Policy"],
+        "properties": {
+          "name": "AdministratorAccess",
+          "objectid": "arn:aws:iam::aws:policy/AdministratorAccess",
+          "displayname": "AdministratorAccess",
+          "policy_type": "managed",
+          "risk_score": "High"
+        }
+      },
+      {
+        "id": "aws-role-AWSServiceRoleForOrganizations",
+        "kinds": ["Role"],
+        "properties": {
+          "name": "AWSServiceRoleForOrganizations",
+          "objectid": "aws-role-AWSServiceRoleForOrganizations",
+          "displayname": "AWSServiceRoleForOrganizations",
+          "overall_risk": "Medium"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "kind": "AWS:MemberOfGroup",
+        "start": {
+          "value": "aws-user-testing-user",
+          "match_by": "id"
+        },
+        "end": {
+          "value": "aws-group-testing-group",
+          "match_by": "id"
+        }
+      },
+      {
+        "kind": "AWS:HasAttachedPolicy",
+        "start": {
+          "value": "aws-user-attacker",
+          "match_by": "id"
+        },
+        "end": {
+          "value": "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+          "match_by": "id"
+        }
+      },
+      {
+        "kind": "AWS:HasAttachedPolicy",
+        "start": {
+          "value": "aws-user-attacker",
+          "match_by": "id"
+        },
+        "end": {
+          "value": "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
+          "match_by": "id"
+        }
+      },
+      {
+        "kind": "AWS:HasAttachedPolicy",
+        "start": {
+          "value": "aws-user-attacker",
+          "match_by": "id"
+        },
+        "end": {
+          "value": "arn:aws:iam::aws:policy/IAMFullAccess",
+          "match_by": "id"
+        }
+      },
+      {
+        "kind": "AWS:HasAttachedPolicy",
+        "start": {
+          "value": "aws-group-testing-group",
+          "match_by": "id"
+        },
+        "end": {
+          "value": "arn:aws:iam::aws:policy/AdministratorAccess",
+          "match_by": "id"
+        }
+      }
+    ]
+  }
+}
